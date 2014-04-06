@@ -246,7 +246,7 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 HOSTCC       = gcc
 HOSTCXX      = g++
 HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer
-HOSTCXXFLAGS = -O2
+HOSTCXXFLAGS = -O3
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -372,7 +372,9 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
-		   -fno-delete-null-pointer-checks
+		   -fmodulo-sched -fmodulo-sched-allow-regmoves -mtune=cortex-a5 \
+                   -funswitch-loops -fpredictive-commoning -fgcse-after-reload \
+ 		   -fno-delete-null-pointer-checks
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
@@ -565,7 +567,7 @@ all: vmlinux
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS        += -Os $(call cc-disable-warning,maybe-uninitialized,)
 else
-KBUILD_CFLAGS        += -O2 $(call cc-disable-warning,maybe-uninitialized,) $(call cc-disable-warning,implicit-function-declaration,) $(call cc-disable-warning,strict-prototypes,) $(call cc-disable-warning,unused-function,) $(call cc-disable-warning,unused-variable,)
+KBUILD_CFLAGS        += -O3 $(call cc-disable-warning,maybe-uninitialized,) $(call cc-disable-warning,implicit-function-declaration,) $(call cc-disable-warning,strict-prototypes,) $(call cc-disable-warning,unused-function,) $(call cc-disable-warning,unused-variable,)
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
